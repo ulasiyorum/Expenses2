@@ -15,7 +15,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout>
+                        <StackLayout Margin="16,0">
                             <Label Text="{Binding Category}"/>
                             <ProgressBar Progress="{Binding ExpensesPercentage}"/>
                         </StackLayout>

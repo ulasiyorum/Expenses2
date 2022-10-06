@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Expenses2.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,19 @@ namespace Expenses2.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ExpensesPage : ContentPage
     {
+        ExpensesVM VM;
         public ExpensesPage()
         {
             InitializeComponent();
+        
+            VM = Resources["vm"] as ExpensesVM;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            VM.GetExpenses();
         }
     }
 }

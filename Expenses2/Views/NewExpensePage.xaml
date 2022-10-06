@@ -14,14 +14,33 @@
         <ToolbarItem Text="Save" Command="{Binding Source={StaticResource vm}, Path=SaveExpenseCommand}"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Margin="16" BindingContext="{Binding Source={StaticResource vm}}">
-            <Entry Placeholder="Expense Name" Text="{Binding ExpenseName,Mode=TwoWay}"/>
-            <Entry Placeholder="Amount" Keyboard="Numeric" Text="{Binding ExpenseAmount,Mode=TwoWay}"/>
-            <Entry Placeholder="Description" Text="{Binding ExpenseDescription,Mode=TwoWay}"/>
-            <DatePicker Date="{Binding ExpenseDate,Mode=TwoWay}"/>
-            <Picker
-                ItemsSource="{Binding Categories}"
-                SelectedItem="{Binding ExpenseCategory,Mode=TwoWay}"/>
+        <StackLayout BindingContext="{Binding Source={StaticResource vm}}">
+            <TableView>
+                <TableRoot>
+                    <TableSection>
+                        <EntryCell Label="Name: " Placeholder="Expense Name.." Text="{Binding ExpenseName,Mode=TwoWay}"/>
+                        <EntryCell Label="Amount: " Placeholder="Expense Amount.." 
+                                   Keyboard="Numeric" Text="{Binding ExpenseAmount,Mode=TwoWay}"/>
+                        <EntryCell Label="Description: " Placeholder="Short Description.." Text="{Binding ExpenseDescription,Mode=TwoWay}"/>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Margin="16,0">
+                                <Label Text="Date: " VerticalOptions="Center"></Label>
+                                <DatePicker Date="{Binding ExpenseDate, Mode=TwoWay}" VerticalOptions="Center" 
+                                            HorizontalOptions="FillAndExpand"/>
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Margin="16,0">
+                                <Label Text="Category: " VerticalOptions="Center"/>
+                                <Picker SelectedItem="{Binding ExpenseCategory,Mode=TwoWay}"
+                                        ItemsSource="{Binding Categories}"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"></Picker>
+                            </StackLayout>
+                        </ViewCell>
+                    </TableSection>
+                </TableRoot>
+            </TableView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
