@@ -2,6 +2,11 @@
 using System.Linq;
 using System.Collections.ObjectModel;
 using Expenses2.Models;
+using Expenses2.Interfaces;
+using Xamarin.Forms;
+using PCLStorage;
+using System.IO;
+
 namespace Expenses2.ViewModels
 {
     public class CategoriesVM
@@ -11,10 +16,16 @@ namespace Expenses2.ViewModels
             get;
             set;
         }
+        public Command Export
+        {
+            get;
+            set;
+        }
         public ObservableCollection<CategoryExpenses> CategoryExpensesCollection { get; set; }
 
         public CategoriesVM()
         {
+            Export = new Command(ShareReport);
             Categories = new ObservableCollection<string>();
             CategoryExpensesCollection = new ObservableCollection<CategoryExpenses>();   
             GetCategories();
@@ -52,6 +63,23 @@ namespace Expenses2.ViewModels
         {
             public string Category { get; set; }
             public float ExpensesPercentage { get; set; }
+        }
+
+        public async void ShareReport()
+        {
+            IFileSystem fileSystem = FileSystem.Current;
+            IFolder rootFolder = fileSystem.LocalStorage;
+            IFolder reportsFolder = await rootFolder.CreateFolderAsync("reports",CreationCollisionOption.OpenIfExists);
+            var txtFile = await reportsFolder.CreateFileAsync("report.txt", CreationCollisionOption.ReplaceExisting);
+            using(StreamWriter sw = new StreamWriter(txtFile.Path))
+            {
+                foreach(var ce in CategoryExpensesCollection)
+                {
+                    sw.WriteLine($"{ce.Category} - {ce.ExpensesPercentage}");
+                }
+            }
+            IShare shareDependency = DependencyService.Get<IShare>();
+            await shareDependency.Show("Expense Report", "Here is your expense report", txtFile.Path);
         }
     }
 }
