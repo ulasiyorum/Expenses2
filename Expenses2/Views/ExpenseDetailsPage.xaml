@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Expenses2.ViewModels"
+             x:Class="Expenses2.Views.ExpenseDetailsPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <vm:ExpenseDetailsVM x:Key="vm"/>
+            <Style TargetType="Label" x:Key="nameLabel">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="30"/>
+            </Style>
+            <Style TargetType="Label" x:Key="amountLabel">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="#05A8AA"/>
+            </Style>
+            <Style TargetType="Label" x:Key="dateLabel">
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+            <Style TargetType="Label" x:Key="categoryLabel">
+                <Setter Property="TextColor" Value="#05A8AA"/>
+                <Setter Property="FontAttributes" Value="Italic"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Margin="16,16,16,0"
+                     BindingContext="{StaticResource vm}">
+            <Label Text="{Binding Expense.Amount, StringFormat='{0:c}'}"
+                   Style="{StaticResource amountLabel}"/>
+            <Label Text="{Binding Expense.Name}"
+                   Style="{StaticResource nameLabel}"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="{Binding Expense.Date, StringFormat='{0:MM/dd/yyyy}'}"
+                       Style="{StaticResource dateLabel}"/>
+                <Label Text="{Binding Expense.Category}"
+                       Style="{StaticResource categoryLabel}"/>
+            </StackLayout>
+            <Label Text="{Binding Expense.Description}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
